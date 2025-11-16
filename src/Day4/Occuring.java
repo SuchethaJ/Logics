@@ -1,4 +1,7 @@
+//Java Program to Find the Maximum and Minimum Occurring Characters in a String
 package Day4;
+
+import java.io.FileNotFoundException;
 
 public class Occuring {
     public static void main(String[] args) {
@@ -9,7 +12,8 @@ public class Occuring {
         String str = "aabcccd";
         int[] arr = new int[26];
         for (int i = 0; i < str.length(); i++) {
-            arr[str.charAt(i) - 'a']++;
+            char ch= str.charAt(i);
+            arr[ch - 'a']++;
         }
         int maxIndex = 0;
         int minindex = 0;
@@ -27,7 +31,7 @@ public class Occuring {
             }
         }
         System.out.println("the max charactor is "+ (char)(maxIndex+'a')+"-> "+max);
-        System.out.println("the min charactor is "+ (char)(minindex+'a')+"-> "+minindex);
+        System.out.println("the min charactor is "+ (char)(minindex+'a')+"-> "+min);
 
     }
 }

@@ -1,3 +1,4 @@
+//Java Program to Print the Duplicate Words in a String
 package Day4;
 
 public class Duplicates {
@@ -13,7 +14,7 @@ public class Duplicates {
                  }
              }
              if (count>1){
-                 System.out.println(arr[i]);
+                 System.out.print(arr[i]+" ");
              }
         }
 
