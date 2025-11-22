@@ -2,6 +2,7 @@ package SetStreams;
 
 import java.util.*;
         import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StudentMain {
 
@@ -24,102 +25,117 @@ public class StudentMain {
         studentSet.add(new Student("Rekha", "Mathematics", 24, 4, 3.7, 0));
         studentSet.add(new Student("Rohan", "Mathematics", 22, 2, 3.5, 1));
 
-        System.out.println("=========== TASK 1 ===========");
-//        Write a program that takes a set of Student objects as input and performs the following operations:
-//        Group the students by their major into a Map where the key is the major and the value is a set of students in that major, but only for majors with more than 5 students and an average GPA above 3.0.
-//                Sort the students within each major in ascending order of their GPA, and then by their age in descending order.
-//                Return the Map containing the grouped and sorted students.
-        Map<String, Set<Student>> grouped = studentSet.stream()
-                .collect(Collectors.groupingBy(
-                        Student::getMajor,
-                        Collectors.toSet()
-                ));
+//        System.out.println("=========== TASK 1 ===========");
+////        Write a program that takes a set of Student objects as input and performs the following operations:
+////        Group the students by their major into a Map where the key is the major and the value is a set of students in that major, but only for majors with more than 5 students and an average GPA above 3.0.
+////                Sort the students within each major in ascending order of their GPA, and then by their age in descending order.
+////                Return the Map containing the grouped and sorted students.
+//        Map<String, Set<Student>> grouped = studentSet.stream()
+//                .collect(Collectors.groupingBy(
+//                        Student::getMajor,
+//                        Collectors.toSet()
+//                ));
+//
+//        Map<String, Set<Student>> finalTask1 = grouped.entrySet().stream()
+//                .filter(entry -> {
+//                    double avgGPA = entry.getValue().stream()
+//                            .mapToDouble(Student::getGpa).average().orElse(0);
+//                    return entry.getValue().size() > 5 && avgGPA > 3.0;
+//                })
+//                .peek(entry -> entry.getValue().stream()
+//                        .sorted(Comparator.comparingDouble(Student::getGpa)
+//                                .thenComparing(Comparator.comparingInt(Student::getAge).reversed()))
+//                        .forEach(System.out::println))
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//
+//        System.out.println("\nResult Task 1 Map: " + finalTask1);
+//
+//        System.out.println("\n=========== TASK 2 ===========");
+////        Implement a program that reads a set of Student objects from the user and performs the following operations:
+////        Filter out all students who have a GPA less than the average GPA of all students, but have an age above 18 and a major in Biology or Chemistry.
+////                Calculate the total years of enrollment of the remaining students, but only for those who have joined in the last 4 years and are majoring in Computer Science or Engineering.
+////                Find the student with the highest years of enrollment and return their details, but only if they have an age below 30 and a GPA above 3.7.
+//
+//        double avgGPAAll = studentSet.stream().mapToDouble(Student::getGpa).average().orElse(0);
+//
+//        List<Student> filteredTask2 = studentSet.stream()
+//                .filter(s -> !(s.getGpa() < avgGPAAll &&
+//                        s.getAge() > 18 &&
+//                        (s.getMajor().equals("Biology") || s.getMajor().equals("Chemistry"))))
+//                .toList();
+//
+//        int totalYears = filteredTask2.stream()
+//                .filter(s -> s.getYearsOfEnrollment() <= 4 &&
+//                        (s.getMajor().equals("Computer Science") || s.getMajor().equals("Engineering")))
+//                .mapToInt(Student::getYearsOfEnrollment)
+//                .sum();
+//
+//        System.out.println("Total years of enrollment (CS & Engg only): " + totalYears);
+//
+//        Optional<Student> highestYears = filteredTask2.stream()
+//                .filter(s -> s.getAge() < 30 && s.getGpa() > 3.7)
+//                .max(Comparator.comparingInt(Student::getYearsOfEnrollment));
+//
+//        System.out.println("Student with highest enrollment: " +
+//                highestYears.orElse(null));
+//
+//
+//        System.out.println("\n=========== TASK 3 ===========");
+////        Create a program that takes a set of Student objects as input and performs the following operations:
+////        Filter out all students who have joined in the last 3 years and have a major in Mathematics, but have a GPA below 3.0 and are on academic probation.
+////                Calculate the sum of the GPAs of the remaining students, but only for those who have an age above 22 and a GPA above the average GPA.
+////                Find the average age of the remaining students, but only if their department has more than 10 students and an average GPA above 3.5.
+////                Calculate the factorial of the average age, but only if the total years of enrollment of all students is greater than 30 and the average GPA is below 3.9.
+//
+//        List<Student> filteredTask3 = studentSet.stream()
+//                .filter(s -> !(s.getYearsOfEnrollment() <= 3 &&
+//                        s.getMajor().equals("Mathematics") &&
+//                        s.getGpa() < 3.0 &&
+//                        s.getNumberOfIncompleteCourses() > 0))
+//                .toList();
+//
+//        double avgGPAAfterFilter = filteredTask3.stream()
+//                .mapToDouble(Student::getGpa).average().orElse(0);
+//
+//        double sumGPA = filteredTask3.stream()
+//                .filter(s -> s.getAge() > 22 && s.getGpa() > avgGPAAfterFilter)
+//                .mapToDouble(Student::getGpa).sum();
+//
+//        System.out.println("Sum of GPAs (Filtered): " + sumGPA);
+//
+//        Map<String, List<Student>> deptGroup = filteredTask3.stream()
+//                .collect(Collectors.groupingBy(Student::getMajor));
+//
+//        deptGroup.forEach((dept, list) -> {
+//            double avg = list.stream().mapToDouble(Student::getGpa).average().orElse(0);
+//            if (list.size() > 10 && avg > 3.5) {
+//                double avgAge = list.stream().mapToInt(Student::getAge).average().orElse(0);
+//                System.out.println("Average age for " + dept + ": " + avgAge);
+//
+//                int totalYearsAll = studentSet.stream()
+//                        .mapToInt(Student::getYearsOfEnrollment).sum();
+//
+//                if (totalYearsAll > 30 && avg < 3.9) {
+//                    long factorial = 1;
+//                    for (int i = 1; i <= (int) avgAge; i++) factorial *= i;
+//                    System.out.println("Factorial of average age: " + factorial);
+//                }
+//            }
+//        });
 
-        Map<String, Set<Student>> finalTask1 = grouped.entrySet().stream()
-                .filter(entry -> {
-                    double avgGPA = entry.getValue().stream()
-                            .mapToDouble(Student::getGpa).average().orElse(0);
-                    return entry.getValue().size() > 5 && avgGPA > 3.0;
-                })
-                .peek(entry -> entry.getValue().stream()
-                        .sorted(Comparator.comparingDouble(Student::getGpa)
-                                .thenComparing(Comparator.comparingInt(Student::getAge).reversed()))
-                        .forEach(System.out::println))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//        Implement a program that takes a set of Student objects as input and performs the following operations:
+//        Filter out all students who have less than 2 years of enrollment and are not majoring in Computer Science, 
+//        but have a GPA of at least 3.2 and an age above 20.
+//        Sort the remaining students in descending order of their GPA, 
+//        and then by their age in ascending order.Return a new set containing the names of the remaining students, 
+//                but with each name reversed, in lowercase, suffixed with their age, and prefixed with their major code.
 
-        System.out.println("\nResult Task 1 Map: " + finalTask1);
+        studentSet.stream().filter(student -> student.getYearsOfEnrollment() < 2
+                        && !(student.getMajor().equals("Computer Science"))
+                        && student.getGpa() >= 3.2 && student.getAge() > 20)
+                .sorted(Comparator.comparing(Student::getGpa).reversed().thenComparing(Student::getAge))
+                .map(student -> new StringBuilder(student.getMajor())
+                        .append(student.getName().toLowerCase()).reverse().append(student.getAge())).collect(Collectors.toSet());
 
-        System.out.println("\n=========== TASK 2 ===========");
-//        Implement a program that reads a set of Student objects from the user and performs the following operations:
-//        Filter out all students who have a GPA less than the average GPA of all students, but have an age above 18 and a major in Biology or Chemistry.
-//                Calculate the total years of enrollment of the remaining students, but only for those who have joined in the last 4 years and are majoring in Computer Science or Engineering.
-//                Find the student with the highest years of enrollment and return their details, but only if they have an age below 30 and a GPA above 3.7.
-
-        double avgGPAAll = studentSet.stream().mapToDouble(Student::getGpa).average().orElse(0);
-
-        List<Student> filteredTask2 = studentSet.stream()
-                .filter(s -> !(s.getGpa() < avgGPAAll &&
-                        s.getAge() > 18 &&
-                        (s.getMajor().equals("Biology") || s.getMajor().equals("Chemistry"))))
-                .toList();
-
-        int totalYears = filteredTask2.stream()
-                .filter(s -> s.getYearsOfEnrollment() <= 4 &&
-                        (s.getMajor().equals("Computer Science") || s.getMajor().equals("Engineering")))
-                .mapToInt(Student::getYearsOfEnrollment)
-                .sum();
-
-        System.out.println("Total years of enrollment (CS & Engg only): " + totalYears);
-
-        Optional<Student> highestYears = filteredTask2.stream()
-                .filter(s -> s.getAge() < 30 && s.getGpa() > 3.7)
-                .max(Comparator.comparingInt(Student::getYearsOfEnrollment));
-
-        System.out.println("Student with highest enrollment: " +
-                highestYears.orElse(null));
-
-
-        System.out.println("\n=========== TASK 3 ===========");
-//        Create a program that takes a set of Student objects as input and performs the following operations:
-//        Filter out all students who have joined in the last 3 years and have a major in Mathematics, but have a GPA below 3.0 and are on academic probation.
-//                Calculate the sum of the GPAs of the remaining students, but only for those who have an age above 22 and a GPA above the average GPA.
-//                Find the average age of the remaining students, but only if their department has more than 10 students and an average GPA above 3.5.
-//                Calculate the factorial of the average age, but only if the total years of enrollment of all students is greater than 30 and the average GPA is below 3.9.
-
-        List<Student> filteredTask3 = studentSet.stream()
-                .filter(s -> !(s.getYearsOfEnrollment() <= 3 &&
-                        s.getMajor().equals("Mathematics") &&
-                        s.getGpa() < 3.0 &&
-                        s.getNumberOfIncompleteCourses() > 0))
-                .toList();
-
-        double avgGPAAfterFilter = filteredTask3.stream()
-                .mapToDouble(Student::getGpa).average().orElse(0);
-
-        double sumGPA = filteredTask3.stream()
-                .filter(s -> s.getAge() > 22 && s.getGpa() > avgGPAAfterFilter)
-                .mapToDouble(Student::getGpa).sum();
-
-        System.out.println("Sum of GPAs (Filtered): " + sumGPA);
-
-        Map<String, List<Student>> deptGroup = filteredTask3.stream()
-                .collect(Collectors.groupingBy(Student::getMajor));
-
-        deptGroup.forEach((dept, list) -> {
-            double avg = list.stream().mapToDouble(Student::getGpa).average().orElse(0);
-            if (list.size() > 10 && avg > 3.5) {
-                double avgAge = list.stream().mapToInt(Student::getAge).average().orElse(0);
-                System.out.println("Average age for " + dept + ": " + avgAge);
-
-                int totalYearsAll = studentSet.stream()
-                        .mapToInt(Student::getYearsOfEnrollment).sum();
-
-                if (totalYearsAll > 30 && avg < 3.9) {
-                    long factorial = 1;
-                    for (int i = 1; i <= (int) avgAge; i++) factorial *= i;
-                    System.out.println("Factorial of average age: " + factorial);
-                }
-            }
-        });
     }
 }
