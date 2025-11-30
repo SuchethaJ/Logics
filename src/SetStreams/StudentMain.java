@@ -130,10 +130,13 @@ public class StudentMain {
 //        and then by their age in ascending order.Return a new set containing the names of the remaining students, 
 //                but with each name reversed, in lowercase, suffixed with their age, and prefixed with their major code.
 
-        studentSet.stream().filter(student -> student.getYearsOfEnrollment() < 2
+        Set<StringBuilder> set = studentSet.stream()
+                .filter(student -> student.getYearsOfEnrollment() < 2
                         && !(student.getMajor().equals("Computer Science"))
-                        && student.getGpa() >= 3.2 && student.getAge() > 20)
-                .sorted(Comparator.comparing(Student::getGpa).reversed().thenComparing(Student::getAge))
+                        && student.getGpa() >= 3.2
+                        && student.getAge() > 20)
+                .sorted(Comparator.comparing(Student::getGpa).reversed()
+                        .thenComparing(Student::getAge))
                 .map(student -> new StringBuilder(student.getMajor())
                         .append(student.getName().toLowerCase()).reverse().append(student.getAge())).collect(Collectors.toSet());
 
